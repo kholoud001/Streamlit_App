@@ -5,9 +5,13 @@ import onnxruntime as ort
 import albumentations as albu
 import os
 from imutils.perspective import four_point_transform
+import matplotlib.pyplot as plt
 import easyocr
 import json
 import argparse
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
 
 parser = argparse.ArgumentParser(description='Read Carte Grise')
 parser.add_argument("--path", type=str, default='')
@@ -297,7 +301,7 @@ def getInformationArriere(result, coordinates, readerEng, readerAr):
         "P.T.A.C": ptac,
         "Poids à vide": pVide,
         "P.T.M.C.T": ptmct
-}}
+    }}
 
 def getResult(path, model_path):
     try:
@@ -341,29 +345,15 @@ def getInformation(path, model_path):
     else:
         return result
 
-# Streamlit app
-def main():
-    st.title("Carte Grise Information API")
-
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png"])
-
-    if uploaded_file is not None:
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        st.write("")
-        st.write("Classifying...")
-
-        path = "temp_image.jpg"
-        with open(path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-
+@app.route('/api/get_information', methods=['POST'])
+def get_info():
+    data = request.get_json()
+    if 'path' in data:
+        path = data['path']
         info = getInformation(path, model_path)
+        return jsonify(info)
+    else:
+        return jsonify({"error": "Please provide 'path' parameter."})
 
-        if isinstance(info, str):
-            st.error(info)
-        else:
-            st.success("Information extracted successfully!")
-            st.json(info)
-
-if __name__ == "__main__":
-    main()
-
+if __name__ == '__main__':
+    app.run(debug=True)
