@@ -407,8 +407,7 @@ def main():
 #     info = main()
 #     print("Result:",info)
 
-if __name__ == "__main__":
-    st.title('Carte Grise Reader')
+  st.title('Carte Grise Reader')
 
     option = st.sidebar.selectbox(
         'Select an option:',
@@ -421,7 +420,14 @@ if __name__ == "__main__":
         if uploaded_file is not None:
             file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
             st.write(file_details)
-            info = getInformation(uploaded_file,model_path)
+
+            # Display the uploaded image
+            st.image(uploaded_file, caption='Uploaded Image', use_column_width=True)
+
+            # Process the image and get information
+            info = getInformation(uploaded_file, model_path)
+
+            # Display the result
             st.write("Result:", info)
 
     elif option == 'Directory':
@@ -429,11 +435,19 @@ if __name__ == "__main__":
         dir_path = st.text_input('Enter directory path:')
         if st.button('Process'):
             if os.path.isdir(dir_path):
-                liste=[]
-                for i in os.listdir(dir_path):
-                    newPath=os.path.join(dir_path, i)
-                    info=getInformation(newPath,model_path)
-                    liste.append({newPath:info})
-                st.write("Result:", liste)
+                st.write("Processing images in directory:", dir_path)
+                for i, file_name in enumerate(os.listdir(dir_path)):
+                    new_path = os.path.join(dir_path, file_name)
+                    info = getInformation(new_path, model_path)
+
+                    # Display the image
+                    image = Image.open(new_path)
+                    st.image(image, caption=f'Image {i+1}', use_column_width=True)
+
+                    # Display the result
+                    st.write(f"Result for Image {i+1}:", info)
             else:
                 st.write("Please provide a valid directory path.")
+
+if __name__ == "__main__":
+    main()
