@@ -19,9 +19,15 @@ model_path = 'pthF/unet_resnet34.onnx'
 readerAr = easyocr.Reader(['ar'])
 readerEng = easyocr.Reader(['en'])
 
-with open('coordinates.json', 'r') as myfile:
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Construct the path to coordinates.json
+coordinates_path = os.path.join(current_dir, 'coordinates.json')
+
+# Open coordinates.json
+with open(coordinates_path, 'r') as myfile:
     data = myfile.read()
-coordinates = json.loads(data)
+    coordinates = json.loads(data)
 
 
 # Function to add padding to the image for better segmentation
