@@ -28,9 +28,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Construct the path to coordinates.json
 coordinates_path = os.path.join(current_dir, 'coordinates.json')
 
-with open('coordinates.json', 'r') as myfile:
-    data=myfile.read()
-coordinates = json.loads(data)
+# Open coordinates.json
+with open(coordinates_path, 'r') as myfile:
+    data = myfile.read()
+    coordinates = json.loads(data)
 
 # Function to add padding to the image for better segmentation
 def addPadding(padd,image):
