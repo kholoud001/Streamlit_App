@@ -1,3 +1,4 @@
+import streamlit as st
 import cv2
 import numpy as np
 import onnxruntime as ort
@@ -8,7 +9,9 @@ import matplotlib.pyplot as plt
 import easyocr
 import json
 import argparse
-import streamlit as st
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
 
 parser = argparse.ArgumentParser(description='Read Carte Grise')
 parser.add_argument("--path", type=str, default='')
@@ -28,8 +31,7 @@ coordinates_path = os.path.join(current_dir, 'coordinates.json')
 with open(coordinates_path, 'r') as myfile:
     data = myfile.read()
     coordinates = json.loads(data)
-
-
+    
 # Function to add padding to the image for better segmentation
 def addPadding(padd, image):
     height, width = image.shape[:2]
@@ -42,7 +44,6 @@ def addPadding(padd, image):
     # Copy the original image into the padded area
     padded_image[padd:padd + height, padd:padd + width] = image
     return padded_image
-
 
 # Function to transform the image to the right format for the model
 def load_transformed_image(image_path, margin):
@@ -82,22 +83,16 @@ def prediction(image, model_path, margin):
     mask = mask.squeeze()
     mask = mask * 255
     mask = cv2.resize(mask, (width, height), interpolation=cv2.INTER_NEAREST)
-
     return originalImg, mask, paddImg
-
 
 # Preprocessing the mask image
 def preprocess_mask(mask):
     horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 1))
     horizontal_lines = cv2.morphologyEx(mask, cv2.MORPH_OPEN, horizontal_kernel, iterations=2)
-
     vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 25))
     vertical_lines = cv2.morphologyEx(mask, cv2.MORPH_OPEN, vertical_kernel, iterations=2)
-
     combined_lines = cv2.bitwise_or(horizontal_lines, vertical_lines)
-
     return combined_lines
-
 
 # Get the 4 coordinates for the corners of the image
 def getCorners(segmentedImg):
@@ -107,9 +102,7 @@ def getCorners(segmentedImg):
         approx = cv2.approxPolyDP(contour, epsilon, True)
         if len(approx) == 4:
             corners = approx.reshape(-1, 2)
-
             return corners
-
 
 # Crop the image based on the returned coordinates of the corners
 def cropImg(path, model_path, margin, closeOperation=None):
@@ -125,7 +118,6 @@ def cropImg(path, model_path, margin, closeOperation=None):
     result = four_point_transform(paddedImg, corners.reshape(4, 2))
     return result
 
-
 # Crop only part of the image (Num d'immatriculation)
 def returnPartOfImg(image, coordinates, target, carte):
     h, w, c = image.shape
@@ -137,7 +129,6 @@ def returnPartOfImg(image, coordinates, target, carte):
     coord = image[top:bottom, left:right]
     return coord
 
-
 # read the text inside the cropped image
 def readPartOfImage(coord, readerEng, readerAr=None):
     resultEng = readerEng.readtext(coord)
@@ -145,7 +136,6 @@ def readPartOfImage(coord, readerEng, readerAr=None):
         resultAr = readerAr.readtext(coord)
         return resultEng, resultAr
     return resultEng
-
 
 # read all the information in the face of "carte grise"
 def getInformationAvant(result, coordinates, readerEng, readerAr):
@@ -181,7 +171,7 @@ def getInformationAvant(result, coordinates, readerEng, readerAr):
         n = [i[1] for i in name]
         prenom, nom = n[:2]
     except:
-        prenom, nom = "--"
+        prenom, nom = "--", "--"
 
     ad = returnPartOfImg(result, coordinates, "Adresse", "Avant")
     try:
@@ -198,20 +188,17 @@ def getInformationAvant(result, coordinates, readerEng, readerAr):
     except:
         validite = "--"
 
-    return {"Carte Grise Avant":
-        {
-            "Numero d'immatriculation": numImm[0][1],
-            "Immatriculation antérieure": immAnt[-1][1],
-            "Premier M.C": premMc,
-            "M.C au Maroc": mcMar,
-            "Mutation le": mutation,
-            "Usage": us,
-            "Propriétaire": prenom + " " + nom,
-            "Adresse": adr,
-            "Fin de validité": validite
-        }
-    }
-
+    return {"Carte Grise Avant": {
+        "Numero d'immatriculation": numImm[0][1],
+        "Immatriculation antérieure": immAnt[-1][1],
+        "Premier M.C": premMc,
+        "M.C au Maroc": mcMar,
+        "Mutation le": mutation,
+        "Usage": us,
+        "Propriétaire": prenom + " " + nom,
+        "Adresse": adr,
+        "Fin de validité": validite
+    }}
 
 # read all the information in the back of "carte grise"
 def getInformationArriere(result, coordinates, readerEng, readerAr):
@@ -235,13 +222,13 @@ def getInformationArriere(result, coordinates, readerEng, readerAr):
         elif len(mo) == 1:
             model, typeCar = "--", mo[0]
         else:
-            model, typeCar = "--"
+            model, typeCar = "--", "--"
         if model.isnumeric():
             model = "--"
         if typeCar.isnumeric():
             typeCar = "--"
     except:
-        model, typeCar = "--"
+        model, typeCar = "--", "--"
 
     numCh = returnPartOfImg(result, coordinates, "NumChassis", "Arriere")
     try:
@@ -317,7 +304,6 @@ def getInformationArriere(result, coordinates, readerEng, readerAr):
         "P.T.M.C.T": ptmct
     }}
 
-
 def getResult(path, model_path):
     try:
         result = cropImg(path, model_path, 0)
@@ -333,7 +319,6 @@ def getResult(path, model_path):
                 except:
                     result = "No corners detected"
     return result
-
 
 def getInformation(path, model_path):
     result = getResult(path, model_path)
@@ -361,24 +346,15 @@ def getInformation(path, model_path):
     else:
         return result
 
-
-def main():
-    if os.path.isfile(args.path):
-        info = getInformation(args.path, model_path)
-        return {
-            args.path: info
-        }
-    elif os.path.isdir(args.path):
-        liste = []
-        for i in os.listdir(args.path):
-            newPath = os.path.join(args.path, i)
-            info = getInformation(newPath, model_path)
-            liste.append({newPath: info})
-        return liste
+@app.route('/api/get_information', methods=['POST'])
+def get_info():
+    data = request.get_json()
+    if 'path' in data:
+        path = data['path']
+        info = getInformation(path, model_path)
+        return jsonify(info)
     else:
-        return "Please check with the path"
+        return jsonify({"error": "Please provide 'path' parameter."})
 
-
-if __name__ == "__main__":
-    info = main()
-    st.write("Result:", info)
+if __name__ == '__main__':
+    app.run(debug=True)
