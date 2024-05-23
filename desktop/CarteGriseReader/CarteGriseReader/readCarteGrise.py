@@ -31,7 +31,7 @@ coordinates_path = os.path.join(current_dir, 'coordinates.json')
 with open(coordinates_path, 'r') as myfile:
     data = myfile.read()
     coordinates = json.loads(data)
-    
+
 # Function to add padding to the image for better segmentation
 def addPadding(padd, image):
     height, width = image.shape[:2]
@@ -64,7 +64,6 @@ def load_transformed_image(image_path, margin):
     transform = albu.Compose([albu.Normalize(p=1)], p=1)
     transformed = transform(image=image)
     return transformed['image'].transpose(2, 0, 1).astype(np.float32), image0, (original_height, original_width), image1
-
 
 # Segmentation prediction function
 def prediction(image, model_path, margin):
