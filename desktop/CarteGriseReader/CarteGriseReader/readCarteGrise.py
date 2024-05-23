@@ -403,37 +403,37 @@ def main():
 
 
 
-if __name__ == "__main__":
-    info = main()
-    st.write("Result:",info)
-
 # if __name__ == "__main__":
-#     st.title('Carte Grise Reader')
+#     info = main()
+#     st.write("Result:",info)
 
-#     option = st.sidebar.selectbox(
-#         'Select an option:',
-#         ('Single Image', 'Directory')
-#     )
+if __name__ == "__main__":
+    st.title('Carte Grise Reader')
 
-#     if option == 'Single Image':
-#         st.subheader('Single Image Processing')
-#         uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-#         if uploaded_file is not None:
-#             file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
-#             st.write(file_details)
-#             info = getInformation(uploaded_file,model_path)
-#             st.write("Result:", info)
+    option = st.sidebar.selectbox(
+        'Select an option:',
+        ('Single Image', 'Directory')
+    )
 
-#     elif option == 'Directory':
-#         st.subheader('Directory Processing')
-#         dir_path = st.text_input('Enter directory path:')
-#         if st.button('Process'):
-#             if os.path.isdir(dir_path):
-#                 liste=[]
-#                 for i in os.listdir(dir_path):
-#                     newPath=os.path.join(dir_path, i)
-#                     info=getInformation(newPath,model_path)
-#                     liste.append({newPath:info})
-#                 st.write("Result:", liste)
-#             else:
-#                 st.write("Please provide a valid directory path.")
+    if option == 'Single Image':
+        st.subheader('Single Image Processing')
+        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+        if uploaded_file is not None:
+            # file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
+            # st.write(file_details)
+            info = getInformation(uploaded_file,model_path)
+            st.write("Result:", info)
+
+    elif option == 'Directory':
+        st.subheader('Directory Processing')
+        dir_path = st.text_input('Enter directory path:')
+        if st.button('Process'):
+            if os.path.isdir(dir_path):
+                liste=[]
+                for i in os.listdir(dir_path):
+                    newPath=os.path.join(dir_path, i)
+                    info=getInformation(newPath,model_path)
+                    liste.append({newPath:info})
+                st.write("Result:", liste)
+            else:
+                st.write("Please provide a valid directory path.")
