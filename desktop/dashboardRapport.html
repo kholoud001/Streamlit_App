@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class = "bg-gray-100 h-screen">
+    <div class = "bg-[#008080] w-52 h-screen flex justify-between flex-col fixed">
+        <div class = "flex flex-col gap-4 mt-8">
+            <div class = "bg-[#009999] h-fit">
+                <img src="./images/SygmaLogo.png" class = "px-2 py-2" alt="">
+            </div>
+
+            <div class = "bg-[#009999] h-fit flex flex-col py-4 gap-4">
+              <div class = "flex items-center flex-col px-4">
+                <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href="dashboardPage.html"><i class="fa-solid fa-chart-simple mr-2"></i>Dashboard</a>
+            </div>
+
+            <div class = "flex items-center flex-col px-4">
+                <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href="dashboardRapport.html"><i class="fa-solid fa-newspaper mr-2"></i>Reports</a>
+            </div>
+
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href=""><i class="fa-solid fa-bell mr-2"></i>Notifications</a>
+                </div>
+
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href=""><i class="fa-solid fa-users mr-2"></i>Users</a>
+                </div>
+            </div>
+        </div>
+        <div class = "bg-[#009999] h-fit flex flex-col justify-center px-4 py-4">
+            <a class = "w-full text-center text-white text-[1.1rem] p-2 bg-[#00B3B3] rounded-lg font-bold" href=""><i class="fa-solid fa-right-from-bracket mr-2"></i>Sign Out</a>
+        </div>
+    </div>
+    <div class = "ml-52 p-8">
+        <h1 class = "font-bold text-3xl">Rapports</h1>
+        <div class = "mt-4 bg-white p-4 py-8 rounded-lg">
+            <div class = "flex flex-row gap-4">
+                <input type="text" placeholder = "Search..." class = "w-full px-4 py-2 mb-2 border-2 rounded-full border-[#009999]">
+                <input type="text" placeholder = "Date..." class = "w-42 px-4 py-2 mb-2 border-2 rounded-full border-[#009999]">
+                <i class = "fas fa-list bg-[#009999] h-fit px-4 py-2 rounded-full text-white text-xl"></i>
+            </div>
+            <div class = "flex flex-row w-full justify-between">
+              <select name="#" id="#" class = "w-48 border-2 rounded-full border-[#009999] outline-none p-2 mb-4">
+                <option value="Testing" disabled selected>Select car...</option>
+              </select>
+              <a href="ajouter.html" class = "text-white bg-[#009999] hover:bg-[#008080] transition-all h-fit rounded-full p-3"><i class = "fas fa-plus mr-2"></i>Create new report</a>
+            </div>
+            <div class = "grid grid-cols-3 gap-4">
+                <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button onclick="location.href='rapportDetail.html'" class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all">
+                          <i class="fas fa-eye mr-2"></i>Display Details
+                      </button>
+                                            </div>
+                    </div>
+                  </div>
+                  <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all"><i class = "fas fa-eye mr-2"></i>Display Details</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all"><i class = "fas fa-eye mr-2"></i>Display Details</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all"><i class = "fas fa-eye mr-2"></i>Display Details</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all"><i class = "fas fa-eye mr-2"></i>Display Details</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-compact w-96 bg-base-100 shadow-xl">
+                    <figure><img class = "h-24 w-full object-cover" src="https://ristichlaw.ca/wp-content/uploads/2022/03/Common-Delayed-Injuries-To-Be-Aware-Of-After-A-Car-Accident.jpg" alt="Shoes" /></figure>
+                    <div class="card-body">
+                      <h2 class="card-title font-bold">SUV 123456789</h2>
+                      <p><b>Date:</b> 2024/01/01</p>
+                      <p><b>VIN:</b> 123456789</p>
+                      <p><b>Price:</b> 10,000 Dh</p>
+                      <div class="card-actions justify-end">
+                        <button class="bg-[#009999] p-4 rounded-lg text-white font-bold hover:scale-105 transition-all"><i class = "fas fa-eye mr-2"></i>Display Details</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>

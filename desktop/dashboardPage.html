@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class = "bg-[#008080] w-52 h-screen flex justify-between flex-col fixed">
+        <div class = "flex flex-col gap-4 mt-8">
+            <div class = "bg-[#009999] h-fit">
+                <img src="./images/SygmaLogo.png" class = "px-2 py-2" alt="">
+            </div>
+
+            <div class = "bg-[#009999] h-fit flex flex-col py-4 gap-4">
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href="dashboardPage.html"><i class="fa-solid fa-chart-simple mr-2"></i>Dashboard</a>
+                </div>
+
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href="dashboardRapport.html"><i class="fa-solid fa-newspaper mr-2"></i>Reports</a>
+                </div>
+
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href=""><i class="fa-solid fa-bell mr-2"></i>Notifications</a>
+                </div>
+
+                <div class = "flex items-center flex-col px-4">
+                    <a class = "w-full text-center text-white text-[1.1rem] bg-[#00B3B3] p-2 rounded-lg font-bold" href=""><i class="fa-solid fa-users mr-2"></i>Users</a>
+                </div>
+            </div>
+        </div>
+        <div class = "bg-[#009999] h-fit flex flex-col justify-center px-4 py-4">
+            <a class = "w-full text-center text-white text-[1.1rem] p-2 bg-[#00B3B3] rounded-lg font-bold" href=""><i class="fa-solid fa-right-from-bracket mr-2"></i>Sign Out</a>
+        </div>
+    </div>
+    <div class = "p-4 ml-52 flex gap-2 flex-col">
+        <div class = "flex justify-end">
+            <h1 class = "text-2xl font-bold">Welcome to your dashboard, Yassine!</h1>
+        </div>
+        <div class="stats shadow">
+  
+            <div class="stat">
+              <div class="stat-figure text-[#009999]">
+                <i class="text-3xl fa-solid fa-car-side"></i>
+              </div>
+              <div class="stat-title">Cars</div>
+              <div class="stat-value">31K</div>
+              <div class="stat-desc">Jan 1st - Feb 1st</div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-figure text-[#009999]">
+                    <i class="text-3xl fa-solid fa-users"></i>
+                  </div>
+              <div class="stat-title">Claims Adjusters</div>
+              <div class="stat-value">4,200</div>
+              <div class="stat-desc">↗︎ 400 (22%)</div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-figure text-[#009999]">
+                    <i class="text-3xl fa-solid fa-users"></i>
+                  </div>
+              <div class="stat-title">Garagists</div>
+              <div class="stat-value">1,200</div>
+              <div class="stat-desc">↘︎ 90 (14%)</div>
+            </div>
+            
+          </div>
+    </div>
+</body>
+</html>
