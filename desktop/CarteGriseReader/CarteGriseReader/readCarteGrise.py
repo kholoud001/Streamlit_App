@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 import easyocr
 import json
 import argparse
+import streamlit as st
+
 
 
 parser = argparse.ArgumentParser(description='Read Carte Grise')
@@ -395,6 +397,37 @@ def main():
 
 
 
+# if __name__ == "__main__":
+#     info = main()
+#     print("Result:",info)
+
 if __name__ == "__main__":
-    info = main()
-    print("Result:",info)
+    st.title('Carte Grise Reader')
+
+    option = st.sidebar.selectbox(
+        'Select an option:',
+        ('Single Image', 'Directory')
+    )
+
+    if option == 'Single Image':
+        st.subheader('Single Image Processing')
+        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+        if uploaded_file is not None:
+            file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
+            st.write(file_details)
+            info = getInformation(uploaded_file,model_path)
+            st.write("Result:", info)
+
+    elif option == 'Directory':
+        st.subheader('Directory Processing')
+        dir_path = st.text_input('Enter directory path:')
+        if st.button('Process'):
+            if os.path.isdir(dir_path):
+                liste=[]
+                for i in os.listdir(dir_path):
+                    newPath=os.path.join(dir_path, i)
+                    info=getInformation(newPath,model_path)
+                    liste.append({newPath:info})
+                st.write("Result:", liste)
+            else:
+                st.write("Please provide a valid directory path.")
