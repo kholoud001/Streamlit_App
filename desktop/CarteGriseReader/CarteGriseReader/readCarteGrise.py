@@ -28,10 +28,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Construct the path to coordinates.json
 coordinates_path = os.path.join(current_dir, 'coordinates.json')
 
-# Open coordinates.json
-with open(coordinates_path, 'r') as myfile:
-    data = myfile.read()
-    coordinates = json.loads(data)
+with open('coordinates.json', 'r') as myfile:
+    data=myfile.read()
+coordinates = json.loads(data)
 
 # Function to add padding to the image for better segmentation
 def addPadding(padd,image):
@@ -386,76 +385,54 @@ def getInformation(path,model_path):
         return result
 
 def main():
-   st.title('Carte Grise Reader')
+    if os.path.isfile(args.path):
+        info=getInformation(args.path,model_path)
+        return {
+            args.path:info
+        }
+    elif os.path.isdir(args.path):
+        liste=[]
+        for i in os.listdir(args.path):
+            newPath=os.path.join(args.path, i)
+            info=getInformation(newPath,model_path)
+            liste.append({newPath:info})
+        return liste
+    else:
+        return "Please check with the path"
 
-    option = st.sidebar.selectbox(
-        'Select an option:',
-        ('Single Image', 'Directory')
-    )
 
-    if option == 'Single Image':
-        st.subheader('Single Image Processing')
-        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
-            st.write(file_details)
-
-            # Display the uploaded image
-            st.image(uploaded_file, caption='Uploaded Image', use_column_width=True)
-
-            # Process the image and get information
-            info = getInformation(uploaded_file, model_path)
-
-            # Display the result
-            st.write("Result:", info)
-
-    elif option == 'Directory':
-        st.subheader('Directory Processing')
-        dir_path = st.text_input('Enter directory path:')
-        if st.button('Process'):
-            if os.path.isdir(dir_path):
-                st.write("Processing images in directory:", dir_path)
-                for i, file_name in enumerate(os.listdir(dir_path)):
-                    new_path = os.path.join(dir_path, file_name)
-                    info = getInformation(new_path, model_path)
-
-                    # Display the image
-                    image = Image.open(new_path)
-                    st.image(image, caption=f'Image {i+1}', use_column_width=True)
-
-                    # Display the result
-                    st.write(f"Result for Image {i+1}:", info)
-            else:
-                st.write("Please provide a valid directory path.")
 
 if __name__ == "__main__":
-    main() 
-    st.title('Carte Grise Reader')
+    info = main()
+    st.write("Result:",info)
 
-    option = st.sidebar.selectbox(
-        'Select an option:',
-        ('Single Image', 'Directory')
-    )
+# if __name__ == "__main__":
+#     st.title('Carte Grise Reader')
 
-    if option == 'Single Image':
-        st.subheader('Single Image Processing')
-        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
-            st.write(file_details)
-            info = getInformation(uploaded_file,model_path)
-            st.write("Result:", info)
+#     option = st.sidebar.selectbox(
+#         'Select an option:',
+#         ('Single Image', 'Directory')
+#     )
 
-    elif option == 'Directory':
-        st.subheader('Directory Processing')
-        dir_path = st.text_input('Enter directory path:')
-        if st.button('Process'):
-            if os.path.isdir(dir_path):
-                liste=[]
-                for i in os.listdir(dir_path):
-                    newPath=os.path.join(dir_path, i)
-                    info=getInformation(newPath,model_path)
-                    liste.append({newPath:info})
-                st.write("Result:", liste)
-            else:
-                st.write("Please provide a valid directory path.")
+#     if option == 'Single Image':
+#         st.subheader('Single Image Processing')
+#         uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+#         if uploaded_file is not None:
+#             file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
+#             st.write(file_details)
+#             info = getInformation(uploaded_file,model_path)
+#             st.write("Result:", info)
+
+#     elif option == 'Directory':
+#         st.subheader('Directory Processing')
+#         dir_path = st.text_input('Enter directory path:')
+#         if st.button('Process'):
+#             if os.path.isdir(dir_path):
+#                 liste=[]
+#                 for i in os.listdir(dir_path):
+#                     newPath=os.path.join(dir_path, i)
+#                     info=getInformation(newPath,model_path)
+#                     liste.append({newPath:info})
+#                 st.write("Result:", liste)
+#             else:
+#                 st.write("Please provide a valid directory path.")
